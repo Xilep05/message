@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cœur Magique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .heart-container {
+            position: relative;
+            transition: all 0.5s;
+        }
+
+        .heart {
+            position: relative;
+            width: 300px;
+            height: 270px;
+            animation: pulse 2s ease infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 240px;
+            background: #ff1493;
+            border-radius: 150px 150px 0 0;
+            box-shadow: 0 0 50px #ff006a;
+        }
+
+        .heart:before {
+            left: 150px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            width: 200px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Animations au clic */
+        .explode {
+            animation: explode 1s forwards, colors 0.5s infinite;
+        }
+
+        @keyframes explode {
+            to { transform: scale(5); opacity: 0; }
+        }
+
+        @keyframes colors {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container">
+        <div class="heart"></div>
+        <div class="message">Si tu m'aimes toujours,<br>clique ici</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const container = document.querySelector('.heart-container');
+        let clicked = false;
+
+        container.addEventListener('click', () => {
+            if(clicked) return;
+            clicked = true;
+            
+            // Animation d'explosion
+            container.classList.add('explode');
+
+            // Confettis
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.7 },
+                particleCount: 100,
+                spread: 70
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+
+            // Redirection après l'animation
+            setTimeout(() => {
+                window.location.href = 'letter.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

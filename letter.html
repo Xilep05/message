@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lettre d'Amour</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                linear-gradient(rgba(255,182,193,0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,182,193,0.2) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        .envelope {
+            background: url('nous-deux.jpg') center/cover no-repeat, #fff;
+            padding: 50px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            max-width: 600px;
+            transform: scale(0);
+            animation: zoomIn 1s 0.5s forwards;
+            border-radius: 10px;
+        }
+
+        .letter {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-line;
+            position: relative;
+            background: rgba(255, 255, 255, 0.8); /* Ajout d'un fond blanc semi-transparent pour le texte */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .heart {
+            position: fixed;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            to { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .stamp {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 80px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope">
+        <img src="https://img.icons8.com/color/96/like--v1.png" alt="Stamp" class="stamp">
+        <div class="letter" id="letter"></div>
+    </div>
+
+    <script>
+        // Texte de la lettre avec effet machine à écrire
+        const text = `Ma petite princesse,
+
+Je t'écris ce message tout d'abord pour
+te remercier d'être à mes côtés chaque jour.
+Je ne me rends pas compte de la chance inouit
+que j'ai de partagé ma vie avec la tienne.
+
+Alors oui je sais que je ne suis pas l'homme
+parfait que tu attends, je sais que parfois
+je peux être maladroit, mais en aucun cas et 
+au grand jamais je ne veux te faire de mal.
+
+On a toujours été un binôme, un duo qui 
+fonctionne malgrès les embûches. Pour toi
+je suis peut être quelqu'un de malsain ou 
+un bouffon mais parfois on peut faire des
+erreurs qui méritent d'être pardonnées.
+
+En tout cas sâche que sans toi, je ne peux 
+avancer, grandir et briller. Tu es ma petite
+lumière dans l'ombre qui m'a fait devenir
+l'homme que je suis aujourd'hui et ça je le 
+dois exclusivement à toi et j'en suis conscient.
+
+C'est pourquoi je tiens autant à toi et que je 
+ne voudrais jamais ta perdre. Tu es tout
+simplement mon âme soeur. Bref je sais que je ne
+suis pas le meilleur pour manier les mots mais au
+moins je dis toujours ce que j'ai sur le coeur.
+
+Ton petit handicapé émotionnel 
+qui t'aime et qui
+essaye de faire de son mieux 
+pour te rendre heureuse. :) 
+`;
+
+        const letter = document.getElementById('letter');
+        let index = 0;
+
+        function typeWriter() {
+            if(index < text.length) {
+                letter.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50);
+            } else {
+                createHearts();
+            }
+        }
+
+        // Création de cœurs flottants
+        function createHearts() {
+            const colors = ['#ff1493', '#ff69b4', '#ffb6c1'];
+            for(let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 95 + '%';
+                heart.style.top = Math.random() * 95 + '%';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(heart);
+            }
+        }
+
+        // Démarrage de l'animation après le chargement
+        window.onload = typeWriter;
+    </script>
+</body>
+</html>
